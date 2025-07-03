@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSentinel - Frontend Technical Documentation</title>
+    <meta name="description" content="Official technical documentation for EcoSentinel frontend architecture, implementation guidelines, and integration protocols.">
+    <meta name="keywords" content="EcoSentinel, frontend, documentation, Flutter, environmental, technical architecture">
+    <meta name="author" content="EcoSentinel Development Team">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="frontend.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Hypothesis Web Annotations -->
+    <script>
+    window.hypothesisConfig = function () {
+        return {
+            branding: {
+                appBackgroundColor: '#e7f4fd',
+                ctaBackgroundColor: '#00b04f',
+                ctaTextColor: '#ffffff'
+            },
+            theme: 'clean'
+        };
+    };
+    </script>
+    <script async src="https://hypothes.is/embed.js"></script>
+</head>
+<body>
+
+    <div class="documentation-container">
+        <!-- Accessibility Skip Links -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        
+        <!-- Interactive Controls Bar -->
+        <div class="interactive-controls-bar">
+            <div class="control-group">
+                <button id="translation-toggle" class="control-btn" title="Translation Options">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                    </svg>
+                    <span class="control-label">Translate</span>
+                </button>
+                
+                <button id="narration-toggle" class="control-btn" title="Text Narration">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                    <span class="control-label">Listen</span>
+                </button>
+                
+                <button id="comment-mode-toggle" class="control-btn active" title="Toggle Comment Mode">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.99 4c0-1.1-.89-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.89 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                    </svg>
+                    <span class="control-label">Comments</span>
+                </button>
+                
+                <button id="print-export" class="control-btn" title="Export Documentation">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+                    </svg>
+                    <span class="control-label">Export</span>
+                </button>
+            </div>
+            
+            <div class="github-integration-status">
+                <span id="github-status" class="status-indicator offline">
+                    <span class="status-dot"></span>
+                    <span class="status-text">GitHub Integration</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" role="navigation" aria-label="Documentation Navigation">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <h3>🌍 EcoSentinel</h3>
+                    <span class="doc-type">Technical Documentation</span>
+                </div>
+                <p class="version-info">Version 1.0.0 | Frontend Specification</p>
+            </div>
+            
+            <div class="sidebar-controls">
+                <div class="search-container">
+                    <input type="search" id="search-bar" placeholder="Search documentation..." aria-label="Search documentation">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </div>
+                
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Dark/Light Theme">
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 010 1.06l-1.591 1.59a.75.75 0 11-1.06-1.06l1.59-1.59a.75.75 0 011.06 0zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.894 17.894a.75.75 0 01-1.06 0l-1.59-1.591a.75.75 0 111.06-1.06l1.59 1.59a.75.75 0 010 1.061zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM5.106 17.894a.75.75 0 010-1.06l1.591-1.59a.75.75 0 011.06 1.06l-1.591 1.59a.75.75 0 01-1.06 0zM3 12a.75.75 0 01.75-.75h2.25a.75.75 0 010 1.5H3.75A.75.75 0 013 12zM6.106 5.106a.75.75 0 011.06 0l1.59 1.591a.75.75 0 01-1.06 1.06l-1.59-1.59a.75.75 0 010-1.06z"/></svg>
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-3.864 2.11-7.23 5.28-9.032a.75.75 0 01.818.162z" clip-rule="evenodd"/></svg>
+                </button>
+            </div>
+            
+            <ul class="nav-links" role="list">
+                <li><a href="#executive-summary" class="nav-link active" data-section="executive-summary">Executive Summary</a></li>
+                <li><a href="#project-status" class="nav-link" data-section="project-status">Project Status</a></li>
+                <li><a href="#design-requirements" class="nav-link" data-section="design-requirements">Design Specifications</a></li>
+                <li><a href="#tech-architecture" class="nav-link" data-section="tech-architecture">Technical Architecture</a></li>
+                <li><a href="#backend-integration" class="nav-link" data-section="backend-integration">Backend Integration</a></li>
+                <li><a href="#features" class="nav-link" data-section="features">Feature Implementation</a></li>
+                <li><a href="#accessibility" class="nav-link" data-section="accessibility">Accessibility & Internationalization</a></li>
+                <li><a href="#integration-points" class="nav-link" data-section="integration-points">API Integration Points</a></li>
+                <li><a href="#github-comments-guide" class="nav-link" data-section="github-comments-guide">GitHub Integration Guide</a></li>
+                <li><a href="#contribution-guidelines" class="nav-link" data-section="contribution-guidelines">Contribution Guidelines</a></li>
+            </ul>
+            
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <label for="language-select">Documentation Language:</label>
+                <select id="language-select">
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="zh">中文</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+        </nav>
+
+        <!-- Main Documentation Content -->
+        <main class="content" id="main-content" role="main">
+            <!-- Document Header -->
+            <header class="document-header">
+                <div class="header-content">
+                    <div class="title-section">
+                        <h1 class="document-title">EcoSentinel Frontend Architecture</h1>
+                        <p class="document-subtitle">Comprehensive Technical Documentation and Implementation Guide</p>
+                        <div class="document-meta">
+                            <span class="doc-version">Version 1.0.0</span>
+                            <span class="doc-date">Last Updated: July 2025</span>
+                            <span class="doc-status">Status: Active Development</span>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-notice">
+                        <div class="notice-content">
+                            <h3>📋 Interactive Documentation</h3>
+                            <p>This documentation supports real-time collaboration through GitHub integration. You may:</p>
+                            <ul class="notice-features">
+                                <li><strong>Comment:</strong> Click the 💬 icon next to any text to add contextual feedback</li>
+                                <li><strong>Translate:</strong> Use the translation controls to view content in multiple languages</li>
+                                <li><strong>Listen:</strong> Enable narration for audio accessibility</li>
+                                <li><strong>Export:</strong> Generate PDF or print-friendly versions</li>
+                            </ul>
+                            <div class="github-integration-info">
+                                <p><strong>GitHub Integration:</strong> Comments are automatically synchronized with GitHub Issues for seamless collaboration and version control.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="backend-btn-container">
+                    <a href="index.html" class="backend-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        Backend Documentation Portal
+                    </a>
+                </div>
+            </header>
+
+            <!-- Executive Summary -->
+            <section id="executive-summary" class="doc-section">
+                <header class="section-header">
+                    <h2 class="section-title">Executive Summary</h2>
+                    <div class="section-meta">
+                        <span class="section-type">Overview</span>
+                        <span class="reading-time">⏱️ 3 min read</span>
+                    </div>
+                </header>
+                
+                <div class="section-content">
+                    <p class="lead-paragraph">The EcoSentinel frontend represents a comprehensive mobile-first application designed to facilitate environmental monitoring, incident reporting, and policy compliance for global environmental initiatives. Built using Flutter framework with UN-compliant design standards, this application serves as the primary user interface for the EcoSentinel environmental monitoring ecosystem.</p>
+                    
+                    <div class="key-highlights">
+                        <h3>Key Technical Highlights</h3>
+                        <div class="highlight-grid">
+                            <div class="highlight-item">
+                                <h4>🏗️ Architecture</h4>
+                                <p>Feature-based modular architecture with BLoC state management pattern for scalable and maintainable codebase.</p>
+                            </div>
+                            <div class="highlight-item">
+                                <h4>🌐 Accessibility</h4>
+                                <p>WCAG 2.1 AA compliant with comprehensive internationalization support for global deployment.</p>
+                            </div>
+                            <div class="highlight-item">
+                                <h4>🔗 Integration</h4>
+                                <p>RESTful API integration with Rasa-based backend and real-time data synchronization capabilities.</p>
+                            </div>
+                            <div class="highlight-item">
+                                <h4>📱 Platform</h4>
+                                <p>Cross-platform mobile application with responsive design optimized for various screen sizes and device capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Status Section -->
+            <section id="project-status" class="doc-section">
+                <header class="section-header">
+                    <h2 class="section-title">Current Development Status</h2>
+                    <div class="section-meta">
+                        <span class="section-type">Status Report</span>
+                        <span class="last-updated">Updated: July 2025</span>
+                    </div>
+                </header>
+                
+                <div class="section-content">
+                    <div class="status-overview">
+                        <div class="progress-indicator">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="progress-text">Overall Progress: 65% Complete</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-container">
+                        <div class="status-category">
+                            <header class="category-header">
+                                <h3>✅ Completed Components</h3>
+                                <span class="completion-badge">6/6 Complete</span>
+                            </header>
+                            <ul class="status-list completed">
+                                <li data-priority="high">Complete project structure established with feature-based architectural patterns</li>
+                                <li data-priority="high">UN-compliant design system implementation with official color schemes and typography standards</li>
+                                <li data-priority="medium">Main application scaffold with bottom navigation structure (5 primary tabs)</li>
+                                <li data-priority="medium">Home screen dashboard with statistical data cards and quick action interfaces</li>
+                                <li data-priority="medium">Theme configuration system utilizing UN brand guidelines and accessibility standards</li>
+                                <li data-priority="low">Responsive layout optimization with mobile-first design methodology</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="status-category">
+                            <header class="category-header">
+                                <h3>🔄 In Development</h3>
+                                <span class="progress-badge">5/5 Active</span>
+                            </header>
+                            <ul class="status-list in-progress">
+                                <li data-priority="high">Chat Interface Module - Advanced environmental assistant with natural language processing and voice interaction capabilities</li>
+                                <li data-priority="high">Environmental Data Visualization - Real-time data dashboard with interactive charts, graphs, and geographic mapping integration</li>
+                                <li data-priority="medium">Incident Reporting System - Multi-step form wizard with camera integration, GPS location services, and file attachment capabilities</li>
+                                <li data-priority="medium">Policy Center Module - Comprehensive document management system with advanced search, categorization, and bookmark functionality</li>
+                                <li data-priority="low">User Profile & Settings - Personalization interface with accessibility options, language preferences, and notification management</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone-timeline">
+                        <h3>Development Milestones</h3>
+                        <div class="timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 1: Foundation</h4>
+                                    <p>Core architecture and design system implementation</p>
+                                    <span class="timeline-date">Completed: June 2025</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item active">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 2: Core Features</h4>
+                                    <p>Primary functionality modules and user interfaces</p>
+                                    <span class="timeline-date">In Progress: July 2025</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item upcoming">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Phase 3: Integration</h4>
+                                    <p>Backend integration and testing protocols</p>
+                                    <span class="timeline-date">Planned: August 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Design Specifications Section -->
+            <section id="design-requirements" class="doc-section">
+                <header class="section-header">
+                    <h2 class="section-title">Design Specifications & Requirements</h2>
+                    <div class="section-meta">
+                        <span class="section-type">Design Standards</span>
+                        <span class="compliance-level">UN Compliant</span>
+                    </div>
+                </header>
+                
+                <div class="section-content">
+                    <div class="design-philosophy">
+                        <h3>Design Philosophy & Principles</h3>
+                        <p class="lead-paragraph">The EcoSentinel frontend adheres to internationally recognized design standards with particular emphasis on United Nations accessibility guidelines, cultural neutrality, and environmental sustainability themes.</p>
+                        
+                        <div class="principles-grid">
+                            <div class="principle-card">
+                                <h4>📱 Mobile-First Methodology</h4>
+                                <p>Progressive enhancement approach ensuring optimal performance across all device categories, with primary focus on mobile user experience optimization.</p>
+                                <ul>
+                                    <li>Responsive breakpoints: 320px, 768px, 1024px, 1440px</li>
+                                    <li>Touch target minimum: 44dp (iOS) / 48dp (Android)</li>
+                                    <li>Gesture-based navigation support</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4>🎨 Visual Design Standards</h4>
+                                <p>Consistent visual language incorporating UN brand guidelines with environmental sustainability themes and cultural sensitivity considerations.</p>
+                                <ul>
+                                    <li>UN Blue primary palette (#0072BC, #00A1C4)</li>
+                                    <li>Environmental accent colors (Green: #00B04F, Earth: #8B4513)</li>
+                                    <li>High contrast ratios (WCAG AAA: 7:1 minimum)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4>♿ Universal Accessibility</h4>
+                                <p>Comprehensive accessibility implementation exceeding WCAG 2.1 AA requirements with additional accommodations for diverse user needs.</p>
+                                <ul>
+                                    <li>Screen reader compatibility (ARIA labels)</li>
+                                    <li>Keyboard navigation support</li>
+                                    <li>Voice command integration</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="principle-card">
+                                <h4>⚡ Performance Excellence</h4>
+                                <p>Optimized performance metrics ensuring accessibility in low-bandwidth and resource-constrained environments common in developing regions.</p>
+                                <ul>
+                                    <li>Target: 60fps animation performance</li>
+                                    <li>Bundle size optimization (&lt;2MB initial load)</li>
+                                    <li>Progressive loading strategies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="technical-specifications">
+                        <h3>Technical Design Specifications</h3>
+                        <div class="spec-categories">
+                            <div class="spec-category">
+                                <h4>Typography System</h4>
+                                <div class="typography-showcase">
+                                    <div class="font-sample">
+                                        <span class="font-name">Inter (Primary)</span>
+                                        <div class="font-weights">
+                                            <span class="weight-300">Light 300</span>
+                                            <span class="weight-400">Regular 400</span>
+                                            <span class="weight-500">Medium 500</span>
+                                            <span class="weight-600">Semibold 600</span>
+                                            <span class="weight-700">Bold 700</span>
+                                        </div>
+                                    </div>
+                                    <div class="font-sample">
+                                        <span class="font-name">Source Code Pro (Code)</span>
+                                        <code class="code-sample">function example() { return "monospace"; }</code>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-category">
+                                <h4>Color Palette</h4>
+                                <div class="color-palette">
+                                    <div class="color-group">
+                                        <h5>Primary Colors</h5>
+                                        <div class="color-swatch" style="background: #0072BC;" data-hex="#0072BC">UN Blue</div>
+                                        <div class="color-swatch" style="background: #00A1C4;" data-hex="#00A1C4">Light Blue</div>
+                                    </div>
+                                    <div class="color-group">
+                                        <h5>Environmental</h5>
+                                        <div class="color-swatch" style="background: #00B04F;" data-hex="#00B04F">Environmental Green</div>
+                                        <div class="color-swatch" style="background: #8B4513;" data-hex="#8B4513">Earth Brown</div>
+                                    </div>
+                                    <div class="color-group">
+                                        <h5>System Colors</h5>
+                                        <div class="color-swatch" style="background: #28A745;" data-hex="#28A745">Success</div>
+                                        <div class="color-swatch" style="background: #FFC107;" data-hex="#FFC107">Warning</div>
+                                        <div class="color-swatch" style="background: #DC3545;" data-hex="#DC3545">Error</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Technical Architecture Section -->
+            <section id="tech-architecture" class="doc-section">
+                <header class="section-header">
+                    <h2 class="section-title">Technical Architecture & Implementation</h2>
+                    <div class="section-meta">
+                        <span class="section-type">Architecture Documentation</span>
+                        <span class="complexity-level">Advanced</span>
+                    </div>
+                </header>
+                
+                <div class="section-content">
+                    <div class="architecture-overview">
+                        <h3>System Architecture Overview</h3>
+                        <p class="lead-paragraph">The EcoSentinel frontend implements a modular, feature-based architecture utilizing Flutter framework with BLoC (Business Logic Component) pattern for state management, ensuring scalability, maintainability, and testability across the application lifecycle.</p>
+                        
+                        <div class="architecture-diagram">
+                            <div class="layer presentation-layer">
+                                <h4>Presentation Layer</h4>
+                                <div class="layer-components">
+                                    <span class="component">Widgets</span>
+                                    <span class="component">Screens</span>
+                                    <span class="component">UI Components</span>
+                                </div>
+                            </div>
+                            <div class="layer business-layer">
+                                <h4>Business Logic Layer</h4>
+                                <div class="layer-components">
+                                    <span class="component">BLoC</span>
+                                    <span class="component">Cubits</span>
+                                    <span class="component">Events/States</span>
+                                </div>
+                            </div>
+                            <div class="layer data-layer">
+                                <h4>Data Layer</h4>
+                                <div class="layer-components">
+                                    <span class="component">Repositories</span>
+                                    <span class="component">Data Sources</span>
+                                    <span class="component">Models</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="technology-stack">
+                        <h3>Technology Stack Specification</h3>
+                        <div class="tech-grid">
+                            <div class="tech-category">
+                                <h4>🏗️ Core Framework</h4>
+                                <div class="tech-list">
+                                    <div class="tech-item">
+                                        <strong>Flutter</strong>
+                                        <span class="version">3.16.0+</span>
+                                        <p>Cross-platform UI toolkit with native performance</p>
+                                    </div>
+                                    <div class="tech-item">
+                                        <strong>Dart</strong>
+                                        <span class="version">3.2.0+</span>
+                                        <p>Programming language optimized for UI development</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-category">
+                                <h4>🔄 State Management</h4>
+                                <div class="tech-list">
+                                    <div class="tech-item">
+                                        <strong>Flutter BLoC</strong>
+                                        <span class="version">8.1.0+</span>
+                                        <p>Predictable state management library</p>
+                                    </div>
+                                    <div class="tech-item">
+                                        <strong>Equatable</strong>
+                                        <span class="version">2.0.5+</span>
+                                        <p>Value equality implementation for Dart classes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-category">
+                                <h4>🌐 Networking & Data</h4>
+                                <div class="tech-list">
+                                    <div class="tech-item">
+                                        <strong>Dio</strong>
+                                        <span class="version">5.3.0+</span>
+                                        <p>Powerful HTTP client with interceptors and request/response transformation</p>
+                                    </div>
+                                    <div class="tech-item">
+                                        <strong>Retrofit</strong>
+                                        <span class="version">4.0.0+</span>
+                                        <p>Type-safe HTTP client generator</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-category">
+                                <h4>📊 Data Visualization</h4>
+                                <div class="tech-list">
+                                    <div class="tech-item">
+                                        <strong>FL Chart</strong>
+                                        <span class="version">0.65.0+</span>
+                                        <p>Highly customizable chart library for Flutter</p>
+                                    </div>
+                                    <div class="tech-item">
+                                        <strong>Google Maps Flutter</strong>
+                                        <span class="version">2.5.0+</span>
+                                        <p>Google Maps integration for location-based features</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-structure">
+                        <h3>Project Structure & Organization</h3>
+                        <div class="structure-diagram">
+                            <pre class="structure-tree"><code>lib/
+├── core/                          # Core application infrastructure
+│   ├── constants/                 # Application-wide constants
+│   ├── theme/                     # Theme configuration and styling
+│   ├── utils/                     # Utility functions and helpers
+│   ├── services/                  # Core services (API, storage, etc.)
+│   └── extensions/                # Dart extensions for enhanced functionality
+├── shared/                        # Shared components and utilities
+│   ├── widgets/                   # Reusable UI components
+│   ├── models/                    # Data models and entities
+│   └── repositories/              # Shared data repositories
+├── features/                      # Feature-based modules
+│   ├── home/                      # Dashboard and overview functionality
+│   │   ├── presentation/          # UI layer (widgets, pages, BLoCs)
+│   │   ├── domain/                # Business logic and entities
+│   │   └── data/                  # Data sources and repositories
+│   ├── chat/                      # AI assistant interface
+│   ├── environmental_data/        # Data visualization and analytics
+│   ├── report_incident/           # Incident reporting system
+│   ├── policies/                  # Policy and regulation center
+│   └── profile/                   # User profile and settings
+├── l10n/                          # Internationalization resources
+│   ├── arb/                       # Application Resource Bundle files
+│   └── generated/                 # Auto-generated localization classes
+└── main.dart                      # Application entry point</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="backend-integration" class="doc-section">
+                <h2>🔧 Backend Integration</h2>
+                <p>The app connects to a Rasa-based backend with these key integrations:</p>
+                <ul>
+                    <li><strong>Chat API:</strong> Send/receive messages with NLP processing</li>
+                    <li><strong>Environmental Data:</strong> Real-time air quality, water quality, waste data</li>
+                    <li><strong>Knowledge Graph:</strong> SPARQL queries for policy information</li>
+                    <li><strong>Report Submission:</strong> Incident reporting with file uploads</li>
+                    <li><strong>User Management:</strong> Profile and preference handling</li>
+                </ul>
+            </section>
+
+            <section id="features" class="doc-section">
+                <h2>📱 Key Features to Implement</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3>1. Smart Chat Interface</h3>
+                        <ul>
+                            <li>Natural language processing for environmental queries</li>
+                            <li>Voice input/output with speech recognition</li>
+                            <li>Rich message bubbles with typing indicators</li>
+                            <li>Quick reply suggestions based on context</li>
+                            <li>Conversation history with search functionality</li>
+                            <li>Multi-media support (charts, maps, images in chat)</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>2. Environmental Data Dashboard</h3>
+                        <ul>
+                            <li>Real-time data cards for air quality, water quality, etc.</li>
+                            <li>Interactive charts showing trends over time</li>
+                            <li>Google Maps integration with data overlays</li>
+                            <li>Color-coded status indicators (Good/Moderate/Poor)</li>
+                            <li>Historical data comparison with date range pickers</li>
+                            <li>Export functionality for reports and data</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>3. Incident Reporting System</h3>
+                        <ul>
+                            <li>Multi-step form wizard with progress indicators</li>
+                            <li>Camera integration for photo/video evidence</li>
+                            <li>GPS location picker with map preview</li>
+                            <li>Category selection (pollution, waste, etc.)</li>
+                            <li>Priority level assignment (Low/High/Critical)</li>
+                            <li>Draft saving for offline completion</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>4. Policy & Regulation Center</h3>
+                        <ul>
+                            <li>Advanced search with filters and categories</li>
+                            <li>Document viewer for PDF policies</li>
+                            <li>Bookmark system for frequently accessed policies</li>
+                            <li>Simplified summaries of complex regulations</li>
+                            <li>Compliance checklists for businesses</li>
+                            <li>Multi-language support for policy documents</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card full-width">
+                        <h3>5. User Profile & Settings</h3>
+                        <ul>
+                            <li>Accessibility options (font size, contrast, voice settings)</li>
+                            <li>Language preferences with RTL support</li>
+                            <li>Notification settings for environmental alerts</li>
+                            <li>Location preferences for relevant local data</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="accessibility" class="doc-section">
+                <h2>🌐 Accessibility & Internationalization</h2>
+                <h3>Accessibility Requirements:</h3>
+                <ul>
+                    <li>Screen reader support with semantic labels</li>
+                    <li>High contrast mode support</li>
+                    <li>Font scaling based on system preferences</li>
+                    <li>Voice navigation for hands-free operation</li>
+                </ul>
+                <h3>Internationalization (l10n):</h3>
+                <ul>
+                    <li>String externalization using Flutter's l10n package</li>
+                    <li>RTL layout support for Arabic, Hebrew, etc.</li>
+                    <li>Cultural adaptation of colors, images, and icons</li>
+                    <li>Date/number formatting based on locale</li>
+                </ul>
+            </section>
+            
+            <section id="integration-points" class="doc-section">
+                <h2>🔗 Integration Points</h2>
+                <p>Key backend API endpoints for frontend integration:</p>
+                <div class="api-endpoints">
+                    <div class="api-endpoint post">
+                        <span class="method">POST</span>
+                        <span class="path">/api/chat/message</span>
+                        <span class="description">Send chat message</span>
+                    </div>
+                    <div class="api-endpoint get">
+                        <span class="method">GET</span>
+                        <span class="path">/api/environmental/data</span>
+                        <span class="description">Get environmental data</span>
+                    </div>
+                     <div class="api-endpoint post">
+                        <span class="method">POST</span>
+                        <span class="path">/api/reports/submit</span>
+                        <span class="description">Submit incident report</span>
+                    </div>
+                     <div class="api-endpoint get">
+                        <span class="method">GET</span>
+                        <span class="path">/api/policies/search</span>
+                        <span class="description">Search policies</span>
+                    </div>
+                     <div class="api-endpoint get">
+                        <span class="method">GET</span>
+                        <span class="path">/api/user/profile</span>
+                        <span class="description">User profile data</span>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="testing" class="doc-section">
+                <h2>🧪 Testing & Quality Assurance</h2>
+                <p>Testing strategy includes:</p>
+                <ul>
+                    <li>Unit tests for business logic and data layers</li>
+                    <li>Widget tests for UI components and interactions</li>
+                    <li>Integration tests for end-to-end scenarios</li>
+                    <li>Accessibility testing with aXe and Wave tools</li>
+                    <li>Performance profiling with Flutter DevTools</li>
+                </ul>
+        </main>
+
+        <!-- Enhanced Comments Modal -->
+        <div id="comment-modal" class="modal-overlay" style="display: none;" role="dialog" aria-labelledby="comment-modal-title" aria-modal="true">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h3 id="comment-modal-title">Add Documentation Feedback</h3>
+                    <button class="modal-close-btn" aria-label="Close comment modal">×</button>
+                </header>
+                
+                <div class="modal-body">
+                    <div class="comment-target-info">
+                        <p>Commenting on section: <span id="comment-target-text" class="target-text"></span></p>
+                    </div>
+                    
+                    <form id="comment-form" class="comment-form">
+                        <input type="hidden" id="comment-target-id">
+                        
+                        <div class="form-group">
+                            <label for="comment-author" class="form-label">Name (Optional)</label>
+                            <input type="text" id="comment-author" class="form-input" placeholder="Your name or GitHub username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comment-email" class="form-label">Email (Optional - for notifications)</label>
+                            <input type="email" id="comment-email" class="form-input" placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comment-type" class="form-label">Comment Type</label>
+                            <select id="comment-type" class="form-select">
+                                <option value="feedback">General Feedback</option>
+                                <option value="correction">Technical Correction</option>
+                                <option value="suggestion">Improvement Suggestion</option>
+                                <option value="question">Question</option>
+                                <option value="clarification">Request for Clarification</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="comment-text" class="form-label">Your Comment <span class="required">*</span></label>
+                            <textarea id="comment-text" class="form-textarea" rows="4" required 
+                                placeholder="Please provide your feedback, suggestions, or questions about this section..."></textarea>
+                            <div class="character-count">
+                                <span id="char-count">0</span>/1000 characters
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="comment-public" checked>
+                                <span class="checkmark"></span>
+                                Make this comment publicly visible on GitHub
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="cancel-comment">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                                </svg>
+                                Submit Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Translation Modal -->
+        <div id="translation-modal" class="modal-overlay" style="display: none;" role="dialog" aria-labelledby="translation-modal-title" aria-modal="true">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h3 id="translation-modal-title">Translation Options</h3>
+                    <button class="modal-close-btn" aria-label="Close translation modal">×</button>
+                </header>
+                
+                <div class="modal-body">
+                    <div class="translation-options">
+                        <div class="option-group">
+                            <h4>Select Target Language</h4>
+                            <div class="language-grid">
+                                <button class="lang-option" data-lang="es">🇪🇸 Español</button>
+                                <button class="lang-option" data-lang="fr">🇫🇷 Français</button>
+                                <button class="lang-option" data-lang="de">🇩🇪 Deutsch</button>
+                                <button class="lang-option" data-lang="zh">🇨🇳 中文</button>
+                                <button class="lang-option" data-lang="ar">🇸🇦 العربية</button>
+                                <button class="lang-option" data-lang="ja">🇯🇵 日本語</button>
+                                <button class="lang-option" data-lang="ko">🇰🇷 한국어</button>
+                                <button class="lang-option" data-lang="pt">🇧🇷 Português</button>
+                            </div>
+                        </div>
+                        
+                        <div class="option-group">
+                            <h4>Translation Scope</h4>
+                            <div class="scope-options">
+                                <label class="radio-label">
+                                    <input type="radio" name="translation-scope" value="current-section" checked>
+                                    <span class="radio-mark"></span>
+                                    Current section only
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="translation-scope" value="full-document">
+                                    <span class="radio-mark"></span>
+                                    Entire document
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="translation-notice">
+                            <p><strong>Note:</strong> Translations are provided by automated services and may require manual verification for technical accuracy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-translation">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="apply-translation">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                            </svg>
+                            Apply Translation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Narration Controls -->
+        <div id="narration-controls" class="narration-panel" style="display: none;">
+            <div class="narration-header">
+                <h4>🔊 Text Narration</h4>
+                <button id="close-narration" class="close-narration-btn">×</button>
+            </div>
+            
+            <div class="narration-content">
+                <div class="playback-controls">
+                    <button id="play-pause-btn" class="control-btn">
+                        <svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
+                    
+                    <button id="stop-btn" class="control-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h12v12H6z"/>
+                        </svg>
+                    </button>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="narration-progress"></div>
+                        </div>
+                        <span class="time-display" id="narration-time">0:00 / 0:00</span>
+                    </div>
+                </div>
+                
+                <div class="narration-settings">
+                    <div class="setting-group">
+                        <label for="narration-speed">Speed:</label>
+                        <input type="range" id="narration-speed" min="0.5" max="2" step="0.1" value="1">
+                        <span id="speed-display">1.0x</span>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="narration-voice">Voice:</label>
+                        <select id="narration-voice">
+                            <option value="default">Default</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="narration-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="auto-scroll" checked>
+                        <span class="checkmark"></span>
+                        Auto-scroll with narration
+                    </label>
+                    
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="highlight-text" checked>
+                        <span class="checkmark"></span>
+                        Highlight current text
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">Processing request...</p>
+            </div>
+        </div>
+        
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="frontend.js"></script>
+</body>
+</html>

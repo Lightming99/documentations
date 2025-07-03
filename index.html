@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Documentation: EcoSentinel Backend System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .highlighted-comment {
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 0, 1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="selection-popover">
+        <button id="comment-btn" title="Comment on selection">💬 Comment</button>
+        <button id="highlight-btn" title="Highlight selection">🖍️ Highlight</button>
+    </div>
+
+    <nav class="sidebar">
+        <header>
+            <h3>Navigation</h3>
+            <div class="sidebar-header-controls">
+                <button id="theme-toggle">☀️ Light Mode</button>
+            </div>
+        </header>
+        <ul>
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#architecture">2. Architecture</a></li>
+            <li><a href="#data-flow">2.2 Data Flow</a></li>
+            <li><a href="#error-handling">2.3 Error Handling</a></li>
+            <li><a href="#ontologies">3. Ontologies & KG</a></li>
+            <li><a href="#integration">4. Data Integration</a></li>
+            <li><a href="#tech-stack">5. Technical Stack</a></li>
+            <li><a href="#features">6. Backend Features</a></li>
+            <li><a href="#configuration">7. Configuration</a></li>
+            <li><a href="#security">8. Security & Privacy</a></li>
+            <li><a href="#deployment">9. Deployment & Ops</a></li>
+            <li><a href="#appendix">10. Appendix</a></li>
+            <li><a href="#live-discussion">11. Live Discussion</a></li>
+        </ul>
+
+        <div class="tool-controls">
+            <h3>Tools</h3>
+            <button id="print-btn">📄 Print Documentation</button>
+            <button id="clear-highlights-btn">✨ Clear Highlights</button>
+            <div id="google_translate_element"></div>
+        </div>
+    </nav>
+
+    <main class="content">
+        <header class="main-header">
+            <div class="announcement-bar">
+                <p>✨ Welcome to the Advanced Interactive Documentation for EcoSentinel! ✨</p>
+            </div>
+            <h1>Technical Documentation: EcoSentinel Backend System</h1>
+            <p class="subtitle">A Comprehensive Technical Specification for the EcoSentinel Backend</p>
+            <div class="frontend-btn-container">
+                <a href="frontend.html" class="frontend-btn">📄 View Frontend Documentation</a>
+            </div>
+        </header>
+
+        <section id="introduction">
+            <div class="section-header">
+                <h2>1. Introduction & System Philosophy</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="introduction" data-section-title="1. Introduction & System Philosophy" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>This document provides a comprehensive technical specification for the backend system of the Environmental Chatbot, EcoSentinel. The system's design is founded upon four key pillars: <strong>Modularity</strong>, to ensure maintainability and facilitate independent component updates; <strong>Extensibility</strong>, to allow for the seamless integration of new data sources and functionalities; <strong>Security</strong>, to safeguard sensitive data and maintain system integrity; and <strong>Compliance</strong>, to guarantee adherence to established environmental data standards and regulatory frameworks. The system is engineered to function as a robust, scalable, and reliable engine for conversational AI within the environmental domain, capable of delivering real-time data, automated compliance verification, and intelligent incident reporting.</p>
+        </section>
+
+        <section id="architecture">
+            <div class="section-header">
+                <h2>2. Conversational AI & Knowledge Integration</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="architecture" data-section-title="2. Conversational AI & Knowledge Integration" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <h3>2.1 Backend Architecture (Comprehensive Block Description)</h3>
+            <p>The backend architecture employs a microservices-inspired design, which decouples the conversational logic from the business logic to enhance both scalability and resilience. The constituent components communicate through well-defined Application Programming Interfaces (APIs), ensuring loose coupling and the capacity for independent deployment.</p>
+            <div class="diagram">
+<pre>
+ ┌────────────────────┐      ┌────────────────────┐      ┌────────────────────┐
+ │  User Interface    │◀────▶│    Rasa Server     │◀────▶│   Action Server    │
+ │ (Web, Mobile, etc.)│      │ (NLU & Dialogue)   │      │ (Python Business Logic)│
+ └────────────────────┘      └────────────────────┘      └────────────────────┘
+                                     ▲              │                │
+                                     │              ▼                ▼
+                             ┌───────────────┐  ┌────────────────┐   ┌────────────────┐
+                             │  Chatbot Logs │  │ Knowledge Graph│   │  External APIs │
+                             │  (SQLite)     │  │   (Neo4j)      │   │ (AQICN, etc.)  │
+                             └───────────────┘  └────────────────┘   └────────────────┘
+                                                            │
+                                                            ▼
+                                                 ┌────────────────┐
+                                                 │ Governance DB  │
+                                                 │   (SQLite)     │
+                                                 └────────────────┘
+</pre>
+            </div>
+            <div class="component-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[A] User Interface (External)</h4>
+                        <button class="comment-icon" data-section-id="card-ui" data-section-title="Card: User Interface" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>This component is explicitly external to the backend. Our architecture is headless and UI-agnostic, designed to support any frontend client (e.g., web, mobile, Command-Line Interface) capable of communicating via HTTP. All responses are formatted in standard JSON to ensure straightforward integration.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[B] Rasa Server (Core Conversational Engine)</h4>
+                        <button class="comment-icon" data-section-id="card-rasa" data-section-title="Card: Rasa Server" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>The core of the conversational experience, this server manages Natural Language Understanding (NLU), including intent and entity extraction, alongside dialogue management. It communicates with the Action Server via a stateless HTTP webhook to trigger business logic.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[C] Action Server (Business Logic & Data Integration)</h4>
+                        <button class="comment-icon" data-section-id="card-action-server" data-section-title="Card: Action Server" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>A discrete Python server, implemented using the <code>rasa-sdk</code>, which encapsulates all custom logic. This includes fetching data from external sources, executing compliance checks, and composing responses. Each action is a modular Python class, rendering the system highly extensible.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[D] External APIs (Live Data Sources)</h4>
+                        <button class="comment-icon" data-section-id="card-apis" data-section-title="Card: External APIs" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>The system integrates with a curated set of authoritative environmental APIs to provide real-time data. This includes sources such as AQICN, OpenWeather, NASA, USGS, EPA, and GBIF. The integration layer is abstracted to facilitate the addition of new data providers.</p>
+                </div>
+                 <div class="card">
+                    <div class="card-header">
+                        <h4>[E] Knowledge Graph (Planned, Ontology-Driven)</h4>
+                        <button class="comment-icon" data-section-id="card-kg" data-section-title="Card: Knowledge Graph" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>The architecture is designed to accommodate a future Neo4j graph database. An ontology (defined in <code>graph_data.ttl</code>) will structure environmental concepts to enable powerful semantic queries that are infeasible for traditional relational databases.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[F] SQLite Databases (Persistent Storage)</h4>
+                        <button class="comment-icon" data-section-id="card-sqlite" data-section-title="Card: SQLite Databases" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>For lightweight, persistent storage, the system utilizes two SQLite databases: <code>environmental_governance.db</code> for compliance checks and incident reports, and <code>chatbot_log.db</code> for analytics on user interactions. Schema management is handled programmatically by the backend.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>[G] Security & Configuration</h4>
+                        <button class="comment-icon" data-section-id="card-security" data-section-title="Card: Security & Configuration" aria-label="Comment on this card">💬</button>
+                    </div>
+                    <p>All secrets and API keys are stored in a <code>.env</code> file and loaded securely using the <code>python-dotenv</code> library. Logging is managed by Python's native <code>logging</code> module, featuring configurable verbosity levels. Future access control will be implemented via OAuth2/JWT.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-flow">
+            <div class="section-header">
+                <h3>2.2 Data Flow (Step-by-Step, Expanded)</h3>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="data-flow" data-section-title="2.2 Data Flow" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>The processing of a user query follows a well-defined, sequential pathway to ensure the efficient and accurate generation of a response.</p>
+            <div class="diagram">
+<pre>
+1. User Query --> [Rasa Server: REST Input]
+   "What is the air quality in Paris?"
+                             │
+                             ▼
+2. NLU Pipeline --> [Intent & Entity Extraction]
+   Intent: 'check_air_quality', Entity: 'location: Paris'
+                             │
+                             ▼
+3. Dialogue Policy --> [Predict Next Action]
+   Prediction: 'action_get_air_quality'
+                             │
+                             ▼
+4. Action Server <-- [Webhook Call with Tracker]
+                             │
+                             ▼
+5. Custom Action --> [API Fetch & DB Log]
+   a. Invoke AQICN API for Paris
+   b. Execute compliance check
+   c. Log check to SQLite database
+                             │
+                             ▼
+6. Response Composition --> [Generate Bot Message]
+   "The air quality in Paris is categorized as Good..."
+                             │
+                             ▼
+7. Rasa Server --> [Send Response to User]
+
+</pre>
+            </div>
+            <ol>
+                <li><strong>User Query Reception</strong>: The user's query is received by the Rasa NLU engine for intent and entity extraction. The system supports multiple languages and advanced entity recognition.</li>
+                <li><strong>Dialogue Management</strong>: Rasa Core determines the subsequent action, manages conversational context, and tracks relevant information (slots).</li>
+                <li><strong>Action Triggering</strong>: Rasa Core invokes the Action Server via a webhook, transmitting the complete conversation tracker.</li>
+                <li><strong>Data Integration & Logic Execution</strong>: The Action Server retrieves data from external APIs (with integrated fallback logic), applies compliance rules, and logs the results to the appropriate SQLite database.</li>
+                <li><strong>Response Composition</strong>: The Action Server formulates a structured, context-aware response. This response can be optionally enhanced by advanced AI models like T5 or Gemini for greater naturalness.</li>
+                <li><strong>Response Delivery</strong>: Rasa delivers the final, composed message to the user, preparing the system for subsequent interactions.</li>
+            </ol>
+        </section>
+
+        <section id="error-handling">
+            <div class="section-header">
+                <h3>2.3 Error Handling & Reliability</h3>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="error-handling" data-section-title="2.3 Error Handling & Reliability" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>System reliability is a paramount concern. Our error handling and reliability strategy encompasses several key measures:</p>
+            <ul>
+                <li><strong>Robust API Interactions:</strong> All external API calls are encapsulated within <code>try/except</code> blocks with comprehensive logging. A retry mechanism with exponential backoff is implemented for critical data sources to mitigate transient network failures.</li>
+                <li><strong>Fallback Mechanisms:</strong> In the event of a primary API failure, the system is designed to fall back to a secondary data source or a cached value, thereby ensuring service continuity.</li>
+                <li><strong>Atomic Database Transactions:</strong> Database operations are wrapped in atomic transactions to prevent partial data writes and maintain data integrity, which is especially critical for incident reporting.</li>
+                <li><strong>User-Centric Error Messaging:</strong> If an action cannot be successfully completed, the user receives a clear and informative message, rather than a generic error, to guide their next steps.</li>
+                <li><strong>System Monitoring & Alerting:</strong> System health metrics and error rates are logged, with the infrastructure designed for seamless integration with monitoring tools such as Prometheus or Grafana for real-time alerting.</li>
+            </ul>
+        </section>
+
+        <section id="ontologies">
+            <div class="section-header">
+                <h2>3. Ontologies & Knowledge Graphs (Ultra-Detailed)</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="ontologies" data-section-title="3. Ontologies & Knowledge Graphs" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <h3>3.1 Utilized Ontologies</h3>
+            <p>We employ established ontologies to construct a structured, semantically rich data layer. This approach transcends simple key-value data models, enabling the system to comprehend and reason about complex relationships between environmental concepts.</p>
+            <ul>
+                <li><strong>ENVO (Environment Ontology):</strong> This serves as the primary vocabulary for describing environmental entities (e.g., <code>envo:AirPollutant</code>), features (e.g., <code>envo:WaterBody</code>), and processes.</li>
+                <li><strong>Schema.org:</strong> This ontology is utilized for general-purpose entities, such as <code>schema:Place</code> and <code>schema:Organization</code>, to ensure broad data interoperability.</li>
+                <li><strong>Domain-Specific Vocabularies:</strong> We incorporate terms from specialized vocabularies, such as Darwin Core (e.g., <code>dwc:Taxon</code>) for biodiversity-related data.</li>
+                <li><strong>Custom Compliance Ontologies:</strong> Air, water, and noise pollution standards are encoded within Python dictionaries, which function as a lightweight, application-specific ontology for compliance verification.</li>
+            </ul>
+            <h3>3.2 Example Ontology Mapping Table</h3>
+            <p>The following table illustrates how raw data fields from external APIs are mapped to formal ontological concepts, thereby enabling rule-based reasoning and validation.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>API Field</th>
+                        <th>Ontology Concept</th>
+                        <th>Compliance Rule/Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>pm25</code></td>
+                        <td><code>envo:ParticulateMatter</code></td>
+                        <td>Air quality compliance check against WHO/EU standards.</td>
+                    </tr>
+                    <tr>
+                        <td><code>ph</code></td>
+                        <td><code>envo:WaterPH</code></td>
+                        <td>Water quality compliance check against EU/WHO drinking water directives.</td>
+                    </tr>
+                    <tr>
+                        <td><code>recycling_rate</code></td>
+                        <td><code>envo:RecyclingRate</code></td>
+                        <td>Waste management target compliance check against EU goals.</td>
+                    </tr>
+                    <tr>
+                        <td><code>species</code></td>
+                        <td><code>dwc:Taxon</code></td>
+                        <td>Biodiversity monitoring and tracking of endangered species via GBIF.</td>
+                    </tr>
+                    <tr>
+                        <td><code>noise_level</code></td>
+                        <td><code>envo:NoiseLevel</code></td>
+                        <td>Noise pollution compliance check against EU environmental noise directive.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="integration">
+            <div class="section-header">
+                <h2>4. Data Integration & Compliance (Deep Dive)</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="integration" data-section-title="4. Data Integration & Compliance" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <h3>4.1 API Integration & Compliance Logic</h3>
+            <p>Live data is retrieved using Python's <code>requests</code> and <code>aiohttp</code> libraries for synchronous and asynchronous operations, respectively. All API endpoints and compliance standards are abstracted into configuration dictionaries to facilitate straightforward management. Each compliance check programmatically compares live data against regulatory thresholds (e.g., WHO, EU), and any identified violations are logged with a designated severity level and recommended corrective actions.</p>
+            <h3>4.2 Incident Reporting & Analytics</h3>
+            <p>User-submitted incident reports are processed through a <strong>spaCy</strong>-based Natural Language Processing (NLP) pipeline to extract key entities, such as location and organization. Keyword analysis is employed to assess the potential impact, and the incident is subsequently archived in the SQLite database with comprehensive metadata for auditing and follow-up purposes.</p>
+            <h3>4.3 Data Quality & Provenance</h3>
+            <p>To ensure the trustworthiness of the data, all entries are timestamped and attributed to their original source. Data quality scores are programmatically assigned to API responses and user-generated reports. Future system releases will incorporate full data lineage and provenance tracking.</p>
+        </section>
+
+        <section id="tech-stack">
+            <div class="section-header">
+                <h2>5. Technical Stack & Extensibility</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="tech-stack" data-section-title="5. Technical Stack & Extensibility" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <div class="tech-stack-grid">
+                <div class="tech-card"><strong>Rasa</strong><span>Core NLU and dialogue management engine.</span></div>
+                <div class="tech-card"><strong>Python 3.9+</strong><span>Primary language for the action server and all backend logic.</span></div>
+                <div class="tech-card"><strong>SQLite</strong><span>Lightweight, file-based database for logging and caching.</span></div>
+                <div class="tech-card"><strong>spaCy</strong><span>Industrial-strength NLP for incident report analysis.</span></div>
+                <div class="tech-card"><strong>aiohttp</strong><span>Asynchronous HTTP client/server for high-performance API calls.</span></div>
+                <div class="tech-card"><strong>python-dotenv</strong><span>Secure management of environment variables and secrets.</span></div>
+                <div class="tech-card"><strong>Neo4j (Planned)</strong><span>Graph database for advanced semantic querying.</span></div>
+                <div class="tech-card"><strong>Docker</strong><span>Containerization for consistent development and deployment environments.</span></div>
+                <div class="tech-card"><strong>Transformers</strong><span>Optional AI enhancement (T5, Gemini) for more natural responses.</span></div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-header">
+                <h2>6. Backend Features (Detailed Table)</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="features" data-section-title="6. Backend Features" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>This table provides a summary of the key features implemented in the backend.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Live Data Integration</td>
+                        <td>Real-time air, water, weather, and biodiversity data from multiple APIs.</td>
+                    </tr>
+                    <tr>
+                        <td>Compliance Checking</td>
+                        <td>Automated logic for air, water, noise, and waste; results are logged and tracked.</td>
+                    </tr>
+                    <tr>
+                        <td>Incident Reporting</td>
+                        <td>NLP-powered processing of user reports with impact assessment and compliance checks.</td>
+                    </tr>
+                    <tr>
+                        <td>Analytics & Logging</td>
+                        <td>Persistent logging of all user interactions, system responses, and feedback for analysis.</td>
+                    </tr>
+                    <tr>
+                        <td>Ontology Mapping</td>
+                        <td>Data structuring and reasoning based on formal environmental ontologies.</td>
+                    </tr>
+                    <tr>
+                        <td>Extensibility</td>
+                        <td>Modular design allows for easy integration of new APIs, ontologies, or a knowledge graph.</td>
+                    </tr>
+                    <tr>
+                        <td>Error Handling</td>
+                        <td>Robust error management, retries with backoff, and fallback logic for high reliability.</td>
+                    </tr>
+                    <tr>
+                        <td>AI Enhancement</td>
+                        <td>Optional integration with T5/Gemini models for natural, context-aware responses.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="configuration">
+            <div class="section-header">
+                <h2>7. Configuration & Environment</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="configuration" data-section-title="7. Configuration & Environment" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>All application configuration is managed via a <code>.env</code> file located at the project root. This centralized approach ensures a clean separation of configuration data from the source code, which is critical for security and maintainability.</p>
+            <ul>
+                <li><strong>API Keys:</strong> <code>AQICN_API_KEY</code>, <code>OPENWEATHER_API_KEY</code>, etc.</li>
+                <li><strong>Database Paths:</strong> <code>GOVERNANCE_DB_PATH</code>, <code>LOG_DB_PATH</code>.</li>
+                <li><strong>Debug Flags:</strong> <code>DEBUG_MODE=True/False</code> to control log verbosity.</li>
+                <li><strong>Log Levels:</strong> <code>LOG_LEVEL=INFO/DEBUG/WARNING</code>.</li>
+            </ul>
+            <p>The <code>python-dotenv</code> library is utilized to load these variables at runtime. This practice renders the application environment-agnostic and simplifies configuration across different deployment stages (e.g., development, staging, production).</p>
+        </section>
+        
+        <section id="security">
+            <div class="section-header">
+                <h2>8. Security, Privacy & Compliance (Expanded)</h2>
+                <div class="section-controls">
+                    <button class="narrate-btn" aria-label="Read section aloud">🔊</button>
+                    <button class="comment-icon" data-section-id="security" data-section-title="8. Security, Privacy & Compliance" aria-label="Comment on this section">💬</button>
+                </div>
+            </div>
+            <p>Security is a foundational principle of the system's architecture, not a supplementary feature. Our approach is comprehensive and proactive.</p>
+            <ul>
+                <li><strong>Secret Management:</strong> All sensitive information, including API keys and credentials, is managed exclusively through the <code>.env</code> file. This file is explicitly excluded from version control via <code>.gitignore</code> to prevent accidental exposure.</li>
+                <li><strong>Input Sanitization:</strong> User-provided input that is destined for database queries is rigorously parameterized to prevent SQL injection vulnerabilities. Furthermore, responses from external APIs are validated against expected schemas before processing.</li>
+                <li><strong>Data Anonymization:</strong> To protect user privacy in alignment with GDPR's "privacy by design" principles, user identifiers in logs and incident reports are either omitted entirely or replaced with anonymized hashes.</li>
+                <li><strong>Principle of Least Privilege:</strong> The application is engineered to request only the data it absolutely requires for its operations. API keys are configured with the minimum necessary permissions to reduce the potential impact of a security breach.</li>
+                <li><strong>Future-Proofing for Authentication:</strong> The system is architected to support the future integration of robust authentication mechanisms, such as OAuth2 and JWT, for securing public-facing API endpoints.</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <p>EcoSentinel Backend Technical Documentation. Last Updated: <span id="last-updated"></span></p>
+        </footer>
+    </main>
+
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="index.js"></script>
+    <script src="https://hypothes.is/embed.js" async></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.target.classList.contains('annotator-hl')) {
+                        mutation.target.classList.add('highlighted-comment');
+                    }
+                });
+            });
+
+            observer.observe(document.body, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+            });
+        });
+    </script>
+</body>
+</html>
