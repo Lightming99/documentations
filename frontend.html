@@ -885,5 +885,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="frontend.js"></script>
+        <script>
+    // Ensure the documentation starts in light theme by default
+    document.addEventListener('DOMContentLoaded', function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+    </script>
 </body>
 </html>
