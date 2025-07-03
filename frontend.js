@@ -1569,3 +1569,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // EcoSentinel Documentation System Fully Loaded
 
 });
+
+// Language Selector
+function initializeLanguageSelector() {
+    const languageSelect = document.getElementById('language-select');
+    languageSelect?.addEventListener('change', (event) => {
+        const selectedLanguage = event.target.value;
+        state.currentLanguage = selectedLanguage;
+        showToast(`Language changed to ${selectedLanguage}`, 'info');
+        // Add logic to update content based on selected language
+    });
+}
+
+// Translation Button
+function initializeTranslationButton() {
+    const translationButton = document.getElementById('translation-toggle');
+    translationButton?.addEventListener('click', () => {
+        showToast('Translation feature triggered', 'info');
+        // Add logic for translation modal or API call
+    });
+}
+
+// Narration Button
+function initializeNarrationButton() {
+    const narrationButton = document.getElementById('narration-toggle');
+    narrationButton?.addEventListener('click', () => {
+        showToast('Narration feature triggered', 'info');
+        // Add logic for narration functionality
+    });
+}
+
+// Remove Comment Button
+function initializeCommentButton() {
+    const commentButton = document.getElementById('comment-toggle');
+    commentButton?.addEventListener('click', () => {
+        if (CONFIG.hypothesis.enabled) {
+            window.open('https://hypothes.is', '_blank');
+        } else {
+            showToast('Hypothesis integration is disabled', 'error');
+        }
+    });
+}
+
+// Initialize all buttons
+initializeLanguageSelector();
+initializeTranslationButton();
+initializeNarrationButton();
+initializeCommentButton();
