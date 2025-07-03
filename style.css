@@ -30,7 +30,7 @@ body.light-mode {
 
 .announcement-bar {
     background-color: var(--primary-accent-color);
-    color: var(--bg-color, #fff);
+    color: #ffffff; /* Set text color to white */
     text-align: center;
     padding: 10px;
     font-weight: 600;
